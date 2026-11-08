@@ -1,0 +1,10 @@
+{
+  "name": "sanko-bunken-maker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SIST 02-2007 形式でウェブページの参考文献を整形する静的サイト",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

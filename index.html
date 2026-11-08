@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>参考文献メーカー</title>
+    <meta
+      name="description"
+      content="ウェブページの情報を入力すると、SIST 02-2007 の形式で参考文献を整形します。不足している項目も指摘します。入力内容は送信されません。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site-header">
+        <h1>
+          参考文献メーカー
+          <span class="sub">ウェブページ／SIST 02-2007 形式</span>
+        </h1>
+        <p class="lead">
+          ウェブページの情報を入れると、参考文献の形に整えます。足りない項目があれば下に書き出すので、提出前の確認に使ってください。
+        </p>
+        <p class="callout">
+          授業や提出先の指定がある場合は、そちらを優先してください。
+        </p>
+      </header>
+
+      <main>
+        <form id="ref-form" class="card" novalidate autocomplete="off">
+          <h2>ウェブページの情報</h2>
+
+          <div class="field">
+            <label for="authors">著者名または組織名</label>
+            <input type="text" id="authors" name="authors" inputmode="text" />
+            <p class="hint">
+              複数いる場合はカンマ区切り（例: <code>島田俊夫, 平木敬</code>）。筆者がわからないときは、運営している組織名でも構いません。
+            </p>
+          </div>
+
+          <label class="check" for="abbreviate">
+            <input type="checkbox" id="abbreviate" name="abbreviate" />
+            <span>著者が3名以上のとき、先頭の1名と「ほか」にまとめる</span>
+          </label>
+
+          <div class="field">
+            <label for="title">ページのタイトル</label>
+            <input type="text" id="title" name="title" />
+            <p class="hint">ブラウザのタブに出る見出しです。</p>
+          </div>
+
+          <div class="field">
+            <label for="siteName">サイト名</label>
+            <input type="text" id="siteName" name="siteName" />
+            <p class="hint">サイト全体の名前です。ページ上部のロゴを確認してください。</p>
+          </div>
+
+          <div class="field">
+            <label for="updated">更新日<span class="optional">不明なら省略可</span></label>
+            <input type="text" id="updated" name="updated" inputmode="numeric" placeholder="2024-03-01" />
+            <p class="hint">
+              <code>2024/3/1</code> や <code>2024年3月1日</code> でも読み取ります。年や年月までしか分からない場合もそのままどうぞ。
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="url">URL</label>
+            <input type="text" id="url" name="url" inputmode="url" placeholder="https://" spellcheck="false" />
+            <p class="hint">アドレス欄をそのまま貼り付けてください。</p>
+          </div>
+
+          <div class="field">
+            <label for="accessed">参照日</label>
+            <input type="text" id="accessed" name="accessed" inputmode="numeric" placeholder="2024-11-08" />
+            <p class="hint">そのページを見た日です。初期値は今日です。</p>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="clear">入力をクリア</button>
+          </div>
+        </form>
+
+        <section class="card result-card" aria-labelledby="result-heading">
+          <h2 id="result-heading">整形結果</h2>
+          <output class="result-text" id="result" for="authors title siteName updated url accessed" aria-live="off"></output>
+
+          <div class="actions">
+            <button type="button" class="primary" id="copy">コピー</button>
+            <span class="copy-status" id="copy-status" role="status"></span>
+          </div>
+
+          <div class="warnings" id="warnings"></div>
+        </section>
+
+        <section class="about">
+          <details>
+            <summary>どんな形に整えているか</summary>
+            <p class="hint">
+              SIST 02-2007「参照文献の書き方」の「5.10 ウェブサイト, ウェブページ, ブログ」に沿って、次の順に並べています。
+            </p>
+            <p class="format-sample">
+              著者名. &ldquo;ページのタイトル&rdquo;. サイト名. 更新日. URL, (参照 年-月-日).
+            </p>
+            <ul>
+              <li>著者名がわからない場合は、著者名を省いてタイトルから書き始めます。</li>
+              <li>更新日が見つからない場合は、更新日ごと省きます。空欄のままで構いません。</li>
+              <li>日付は <code>2000-02-02</code> のように、西暦の年-月-日で書きます。</li>
+              <li>
+                著者が3名を超える場合は、先頭の1名と「ほか」にまとめて書くこともできます（上のチェックボックス）。
+              </li>
+              <li>
+                欧文の著者名で「姓, 名」のようにカンマを使う場合は、著者同士の区切りにセミコロン（<code>;</code>）を使ってください。
+                例: <code>Folland, Gerald B.; Stein, Elias M.</code>
+              </li>
+              <li>
+                区切りの記号は、同基準の用例に合わせて半角ピリオドと半角空白を使っています（基準の書式表記は全角ですが、掲載されている用例はいずれも半角です）。
+              </li>
+            </ul>
+          </details>
+
+          <h2>このツールについて</h2>
+          <ul>
+            <li>
+              個人が作成した<strong>非公式</strong>のツールです。国立研究開発法人科学技術振興機構（JST）および SIST
+              とは関係がありません。
+            </li>
+            <li>
+              入力した内容はブラウザの中だけで処理されます。どこにも送信せず、保存もしません。
+            </li>
+            <li>現在、アクセス解析と広告は設置していません。</li>
+            <li>
+              整形の根拠にした原文は、国立国会図書館のインターネット資料収集保存事業（WARP）に保存されています。
+              <a
+                href="https://warp.ndl.go.jp/web/20220119000000/jipsti.jst.go.jp/sist/handbook/sist02_2007/main.htm"
+                rel="noreferrer"
+                >SIST 02-2007（HTML版）</a
+              >
+              ／
+              <a
+                href="https://warp.ndl.go.jp/web/20220119000000/jipsti.jst.go.jp/sist/pdf/SIST02-2007.pdf"
+                rel="noreferrer"
+                >PDF版</a
+              >
+            </li>
+            <li>
+              整形結果は必ずご自身で確認してください。判断に迷う場合は原文と提出先の指示を確認してください。
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer>
+        <p>参考文献メーカー — ウェブページの参考文献を SIST 02-2007 形式に整えます。</p>
+      </footer>
+    </div>
+
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
